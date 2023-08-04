@@ -15,7 +15,7 @@ cppdialect "C++17"
 targetdir "bin/%{prj.name}"
 objdir "obj/%{prj.name}"
 files {"%{prj.name}/src/**.cpp", "%{prj.name}/src/**.c", "%{prj.name}/src/**.h"}
-includedirs {"Dependencies/Glad/include", "Dependencies/GLFW/include"}
+includedirs {"Dependencies/Glad/include", "Dependencies/GLFW/include", "Dependencies/GLM/include"}
 links {"GLFW"}
 
 -- Because only building release optimize is on
