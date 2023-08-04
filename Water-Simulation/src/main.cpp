@@ -26,7 +26,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
         // Swapping the buffers
         glfwSwapBuffers(window);
-        // Updating the input device states
+        // Updating the input states
         glfwPollEvents();
     }
     // Terminating the Window instance
