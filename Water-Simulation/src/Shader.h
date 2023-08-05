@@ -137,6 +137,8 @@ private:
 			return 0;
 		}
 	}
+	
+	// Reports on the compilation errors if any
 	static void ReportShaderStatus(unsigned int shader, unsigned int pname)
 	{
 		static int success = 0;
@@ -152,6 +154,7 @@ private:
 			std::cout << "Shader compiled successfully" << std::endl;
 		}
 	}
+
 private:
 	unsigned int m_ProgramID = 0;
 };
