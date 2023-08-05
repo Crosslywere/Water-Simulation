@@ -21,7 +21,7 @@ int main(void)
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return -1;
     std::cout << "OpenGL Version: " << GLVersion.major << "." << GLVersion.minor << std::endl;
     // Loading shader resource
-    Shader s({ "res/shader.frag", ShaderType::Fragment });
+    Shader s({ "res/shaders/shader.frag", ShaderType::Fragment });
     // Creating a test triangle
     float vertices[] = {
         0.0f, 0.5f, 0.0f,
