@@ -8,6 +8,7 @@
 #include <sstream>
 #include <glm/glm.hpp>
 #include "Shader.h"
+#include <iostream>
 
 enum class MeshUsage
 {
@@ -16,24 +17,32 @@ enum class MeshUsage
 	Dynameic = GL_DYNAMIC_DRAW,
 };
 
+// Works only with Wavefront(.obj) files
 class Mesh
 {
 public:
 	Mesh(const std::string& filePath, const MeshUsage usage = MeshUsage::Static)
 	{
-		PrepData(filePath);
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_Position.size(), m_Position.data(), static_cast<unsigned int>(usage));
+		try
+		{
+			auto data = PrepData(filePath);
+			glGenVertexArrays(1, &VAO);
+			glBindVertexArray(VAO);
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * data.first.size(), data.first.data(), static_cast<unsigned int>(usage));
 
-		glGenBuffers(1, &EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_Indices.size(), m_Indices.data(), static_cast<unsigned int>(usage));
+			glGenBuffers(1, &EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * data.second.size(), data.second.data(), static_cast<unsigned int>(usage));
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-		glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+			glEnableVertexAttribArray(0);
+		}
+		catch (std::exception e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 
 	// Draws the mesh using the shader
@@ -41,14 +50,16 @@ public:
 	{
 		shader.Use();
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, m_FaceCount, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, m_VertCount, GL_UNSIGNED_INT, 0);
 	}
 
 private:
 	// Reads the mesh data from the filePath to put it into the appropriate vector
 	// Throws an exception if the file can't be opened
-	void PrepData(const std::string& filePath)
+	std::pair<std::vector<float>, std::vector<unsigned int>> PrepData(const std::string& filePath)
 	{
+		std::vector<float> posData;
+		std::vector<unsigned int> indexData;
 		std::ifstream fs(filePath);
 		if (fs.is_open())
 		{
@@ -63,7 +74,7 @@ private:
 					{
 						std::string str;
 						ss >> str;
-						m_Position.push_back(std::stof(str));
+						posData.push_back(std::stof(str));
 					}
 				}
 				else if (line[0] == 'f')
@@ -72,12 +83,14 @@ private:
 					{
 						std::string str;
 						ss >> str;
-						m_Indices.push_back(std::stoul(str) - 1);
+						indexData.push_back(std::stoul(str) - 1);
+						m_VertCount++;
 					}
 					m_FaceCount++;
 				}
 			}
 			std::cout << "Face count of this mesh = " << m_FaceCount << std::endl;
+			return { posData, indexData };
 		}
 		else
 		{
@@ -86,12 +99,11 @@ private:
 	}
 
 private:
-	std::vector<float> m_Position;
-	std::vector<unsigned long> m_Indices;
 	unsigned int VAO;
 	unsigned int VBO;
 	unsigned int EBO;
 	unsigned int m_FaceCount = 0;
+	unsigned int m_VertCount = 0;
 };
 
 #endif // MESH_H
