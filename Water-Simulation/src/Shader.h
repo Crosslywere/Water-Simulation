@@ -33,46 +33,32 @@ public:
 	Shader(const ShaderFile& shaderFile1 = {}, const ShaderFile& shaderFile2 = {}, const ShaderFile& shaderFile3 = {})
 	{
 		std::vector<unsigned int> shaders;
-		if (shaderFile1.type != ShaderType::None)
+		try
 		{
-			try
+			if (shaderFile1.type != ShaderType::None)
 			{
 				shaders.push_back(CompileShader(shaderFile1.filePath, static_cast<unsigned int>(shaderFile1.type)));
-			}
-			catch (std::exception e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-			if (shaderFile2.type != ShaderType::None)
-			{
-				try
+				if (shaderFile2.type != ShaderType::None)
 				{
 					shaders.push_back(CompileShader(shaderFile2.filePath, static_cast<unsigned int>(shaderFile2.type)));
-				}
-				catch (std::exception e)
-				{
-					std::cout << e.what() << std::endl;
-				}
-				if (shaderFile3.type != ShaderType::None)
-				{
-					try
+					if (shaderFile3.type != ShaderType::None)
 					{
 						shaders.push_back(CompileShader(shaderFile3.filePath, static_cast<unsigned int>(shaderFile3.type)));
 					}
-					catch (std::exception e)
-					{
-						std::cout << e.what() << std::endl;
-					}
 				}
-			}
-			m_ProgramID = glCreateProgram();
-			for (auto shader : shaders)
-				glAttachShader(m_ProgramID, shader);
+				m_ProgramID = glCreateProgram();
+				for (auto shader : shaders)
+					glAttachShader(m_ProgramID, shader);
 
-			glLinkProgram(m_ProgramID);
+				glLinkProgram(m_ProgramID);
+			}
+			for (auto shader : shaders)
+				glDeleteShader(shader);
 		}
-		for (auto shader : shaders)
-			glDeleteShader(shader);
+		catch (std::exception e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 	
 	~Shader()
@@ -82,7 +68,7 @@ public:
 	}
 
 	// Switch shader to shader instance.
-	void Use()
+	void Use() const 
 	{
 		glUseProgram(m_ProgramID);
 	}
@@ -131,10 +117,8 @@ private:
 		}
 		else
 		{
-			// std::cerr << "\033[31mUnable to open shader file " << shaderPath << "\033[0m" << std::endl;
 			sourceFile.close();
-			throw std::exception(std::string("Unable to open shader file in path '" + shaderPath).c_str());
-			return 0;
+			throw std::exception(std::string("Unable to open shader file in path '" + shaderPath + "'").c_str());
 		}
 	}
 	
