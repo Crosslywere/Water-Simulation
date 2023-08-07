@@ -13,6 +13,10 @@ public:
 	Camera(glm::vec3 position = glm::vec3(0.0f, 1.0f, -1.0f), float pitch = 0.0f, float yaw = -90.0f, float fov = 90.0f)
 		: m_Position(position), m_Pitch(pitch), m_Yaw(yaw), m_FOV(fov)
 	{
+		if (m_FOV > 90.0f)
+			m_FOV = 90.0f;
+		if (m_FOV < 45.0f)
+			m_FOV = 45.0f;
 		UpdateVectors();
 	}
 
@@ -47,10 +51,10 @@ public:
 		m_Pitch += pitch;
 		if (constrain)
 		{
-			if (m_Pitch < -90.0f)
-				m_Pitch = -90.0f;
-			if (m_Pitch > 90.0f)
-				m_Pitch = 90.0f;
+			if (m_Pitch < -89.0f)
+				m_Pitch = -89.0f;
+			if (m_Pitch > 89.0f)
+				m_Pitch = 89.0f;
 		}
 		UpdateVectors();
 	}
