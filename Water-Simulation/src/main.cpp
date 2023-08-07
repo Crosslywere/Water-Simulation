@@ -70,9 +70,9 @@ int main(void)
         // Setting the shaders uniforms
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)props.Width / (float)props.Height, 0.1f, 100.0f);
         shader.SetMat4("projection", projection);
-        glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 3.0f, -13.0f), glm::vec3(0.0f), glm::normalize(glm::vec3(0.0f, 1.0f, 1.0f)));
+        glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 6.0f, -10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         shader.SetMat4("view", view);
-        glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(-15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::mat4 model = glm::mat4(1.0f);
         shader.SetMat4("model", model);
         shader.SetFloat("time", (float)glfwGetTime());
         // Drawing the mesh
