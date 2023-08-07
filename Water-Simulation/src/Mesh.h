@@ -8,6 +8,7 @@
 #include <sstream>
 #include <glm/glm.hpp>
 #include "Shader.h"
+#include <iostream>
 
 enum class MeshUsage
 {
@@ -44,6 +45,13 @@ public:
 		{
 			std::cout << e.what() << std::endl;
 		}
+	}
+
+	~Mesh()
+	{
+		glDeleteBuffers(1, &m_EBO);
+		glDeleteBuffers(1, &m_VBO);
+		glDeleteVertexArrays(1, &m_VAO);
 	}
 
 	// Draws the mesh using the shader
