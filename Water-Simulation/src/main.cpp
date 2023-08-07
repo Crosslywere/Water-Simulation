@@ -118,7 +118,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Configuring the window
-    WindowProps props = { 1280, 720, "Water Simulation", new Camera(glm::vec3(3.0f, 6.0f, 10.0f), -30.0f, -105.0f, 45.0f) };
+    WindowProps props = { 1280, 720, "Water Simulation", new Camera(glm::vec3(3.0f, 6.0f, 20.0f), -30.0f, -105.0f, 45.0f) };
     Camera& camera = *props.ptrCamera;
     // Creating the Window
     GLFWwindow* window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
@@ -160,6 +160,30 @@ int main(void)
         shader.SetMat4("model", model);
         shader.SetFloat("time", (float)glfwGetTime());
         // Drawing the mesh
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
+        shader.SetMat4("model", model);
+        mesh.Draw(shader);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
+        shader.SetMat4("model", model);
         mesh.Draw(shader);
         // Swapping the buffers
         glfwSwapBuffers(window);

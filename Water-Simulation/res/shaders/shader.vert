@@ -12,9 +12,10 @@ uniform float time;
 
 void main()
 {
-	float posOffset = aPos.x + aPos.z;
+	vec4 worldPos = model * vec4(aPos, 1.0);
+	float posOffset = worldPos.x + worldPos.z;
 
-	float freq = FREQUENCY(1.0);
+	float freq = FREQUENCY(0.5);
 
 	// The offset for the y-axis calculated for each vertex
 	float yOffset = 0.25 * sin((aPos.y * freq + time * freq) + posOffset);
