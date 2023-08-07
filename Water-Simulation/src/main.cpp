@@ -43,7 +43,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Configuring the window
-    WindowProps props = { 1280, 720, "Water Simulation", nullptr };
+    WindowProps props = { 1280, 720, "Water Simulation" };
     // Creating the Window
     GLFWwindow* window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
     // Testing that the Window was created
@@ -72,10 +72,9 @@ int main(void)
         shader.SetMat4("projection", projection);
         glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 3.0f, -13.0f), glm::vec3(0.0f), glm::normalize(glm::vec3(0.0f, 1.0f, 1.0f)));
         shader.SetMat4("view", view);
-        shader.SetMat4("model", glm::rotate(glm::mat4(1.0f), glm::radians(-15.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+        glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(-15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        shader.SetMat4("model", model);
         shader.SetFloat("time", (float)glfwGetTime());
-        shader.SetVec3("right", glm::vec3(1.0f, 0.0f, 0.0f));
-        shader.SetVec3("lightDir", glm::normalize(glm::vec3(-1.0f, -1.0f, 0.0f)));
         // Drawing the mesh
         mesh.Draw(shader);
         // Swapping the buffers
