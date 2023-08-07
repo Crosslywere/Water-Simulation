@@ -8,7 +8,6 @@
 #include <sstream>
 #include <glm/glm.hpp>
 #include "Shader.h"
-#include <iostream>
 
 enum class MeshUsage
 {
