@@ -19,7 +19,7 @@ void frameBufferResizeFn(GLFWwindow* window, int width, int height)
 {
     WindowProps* props = (WindowProps*)glfwGetWindowUserPointer(window);
     props->Width = width;
-    props->Height = height;
+    props->Height = height == 0 ? 1 : height;
     glViewport(0, 0, width, height);
 }
 
@@ -118,7 +118,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Configuring the window
-    WindowProps props = { 1280, 720, "Water Simulation", new Camera(glm::vec3(3.0f, 6.0f, 20.0f), -30.0f, -105.0f, 45.0f) };
+    WindowProps props = { 1280, 720, "Water Simulation", new Camera(glm::vec3(0.0f, 6.0f, -20.0f), -30.0f, 90.0f, 45.0f) };
     Camera& camera = *props.ptrCamera;
     // Creating the Window
     GLFWwindow* window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), nullptr, nullptr);
@@ -141,6 +141,18 @@ int main(void)
     Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex });
     Mesh mesh("res/meshes/plane.obj");
     // The application loop
+    glm::vec3 transforms[9] =
+    {
+        glm::vec3(0.0f),
+        glm::vec3(0.0f, 0.0f, 10.0f),
+        glm::vec3(10.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, -10.0f),
+        glm::vec3(0.0f, 0.0f, -10.0f),
+        glm::vec3(-10.0f, 0.0f, 0.0f),
+        glm::vec3(-10.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 10.0f),
+        glm::vec3(0.0f, 0.0f, 10.0f),
+    };
     float past = static_cast<float>(glfwGetTime());
     while (!glfwWindowShouldClose(window))
     {
@@ -152,39 +164,19 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         processInput(window, camera, delta);
         // Setting the shaders uniforms
-        glm::mat4 projection = glm::perspective(glm::radians(camera.GetFOV()), (float)props.Width / (float)props.Height, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.GetFOV()), static_cast<float>(props.Width) / static_cast<float>(props.Height), 0.1f, 100.0f);
         shader.SetMat4("projection", projection);
         glm::mat4 view = camera.GetViewMatrix();
         shader.SetMat4("view", view);
         glm::mat4 model = glm::mat4(1.0f);
-        shader.SetMat4("model", model);
         shader.SetFloat("time", (float)glfwGetTime());
         // Drawing the mesh
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(-10.0f, 0.0f, 0.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 10.0f));
-        shader.SetMat4("model", model);
-        mesh.Draw(shader);
+        for (int i = 0; i < 9; i++)
+        {
+            model = glm::translate(model, transforms[i]);
+            shader.SetMat4("model", model);
+            mesh.Draw(shader);
+        }
         // Swapping the buffers
         glfwSwapBuffers(window);
         // Updating the input states
