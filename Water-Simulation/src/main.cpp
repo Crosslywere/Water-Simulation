@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Camera.h"
 #include <iostream>
+#include <array>
 
 struct WindowProps
 {
@@ -29,15 +30,18 @@ void keyFn(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
     case GLFW_KEY_1:
     case GLFW_KEY_F1:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        if (action == GLFW_PRESS)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
     case GLFW_KEY_2:
     case GLFW_KEY_F2:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        if (action == GLFW_PRESS)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         break;
     case GLFW_KEY_3:
     case GLFW_KEY_F3:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        if (action == GLFW_PRESS)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
         break;
     case GLFW_KEY_ESCAPE:
         glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -141,7 +145,7 @@ int main(void)
     Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex });
     Mesh mesh("res/meshes/plane.obj");
     // The application loop
-    glm::vec3 transforms[9] =
+    std::array<glm::vec3, 9> transforms =
     {
         glm::vec3(0.0f),
         glm::vec3(0.0f, 0.0f, 10.0f),
@@ -171,7 +175,7 @@ int main(void)
         glm::mat4 model = glm::mat4(1.0f);
         shader.SetFloat("time", (float)glfwGetTime());
         // Drawing the mesh
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < transforms.size(); i++)
         {
             model = glm::translate(model, transforms[i]);
             shader.SetMat4("model", model);
