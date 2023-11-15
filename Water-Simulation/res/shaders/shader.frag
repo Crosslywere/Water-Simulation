@@ -1,5 +1,7 @@
 #version 330 core
 
+in vec3 normal;
+
 void main()
 {
 	// Outputting an orange color

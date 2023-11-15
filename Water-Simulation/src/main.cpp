@@ -142,7 +142,7 @@ int main(void)
     std::cout << "OpenGL Version: " << GLVersion.major << "." << GLVersion.minor << std::endl;
     glfwSwapInterval(1);
     // Loading shader resource
-    Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex });
+    Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex }, { "res/shaders/shader.geom", ShaderType::Geometry });
     Mesh mesh("res/meshes/plane.obj");
     // The application loop
     std::array<glm::vec3, 9> transforms =
