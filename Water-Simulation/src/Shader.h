@@ -79,6 +79,12 @@ public:
 		glUseProgram(0);
 	}
 
+	// Sets a integer uniform with a matching name in the file to be the value of i
+	void SetInt(const std::string& name, int i)
+	{
+		glUniform1i(glGetUniformLocation(m_ProgramID, name.c_str()), i);
+	}
+
 	// Sets a float uniform with a matching name in the file to be the value of f
 	void SetFloat(const std::string& name, float f)
 	{
