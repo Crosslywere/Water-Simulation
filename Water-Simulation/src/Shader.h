@@ -88,7 +88,7 @@ public:
 	// Sets a vec3 uniform with a matching name in the file to be the value of v
 	void SetVec3(const std::string& name, glm::vec3 v)
 	{
-		glUniform3fv(glGetUniformLocation(m_ProgramID, name.c_str()), GL_FALSE, glm::value_ptr(v));
+		glUniform3fv(glGetUniformLocation(m_ProgramID, name.c_str()), 1, glm::value_ptr(v));
 	}
 
 	// Sets a mat4 uniform with a matching name to the file to be the value of m

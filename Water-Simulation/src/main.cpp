@@ -121,6 +121,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 1);
     // Configuring the window
     WindowProps props = { 1280, 720, "Water Simulation", new Camera(glm::vec3(0.0f, 6.0f, -20.0f), -30.0f, 90.0f, 45.0f) };
     Camera& camera = *props.ptrCamera;
@@ -141,6 +142,9 @@ int main(void)
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return -1;
     std::cout << "OpenGL Version: " << GLVersion.major << "." << GLVersion.minor << std::endl;
     glfwSwapInterval(1);
+    // Enabling OpenGL settings
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_MULTISAMPLE);
     // Loading shader resource
     Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex }, { "res/shaders/shader.geom", ShaderType::Geometry });
     Mesh mesh("res/meshes/plane.obj");
@@ -174,6 +178,7 @@ int main(void)
         shader.SetMat4("view", view);
         glm::mat4 model = glm::mat4(1.0f);
         shader.SetFloat("time", (float)glfwGetTime());
+        shader.SetVec3("lightPos", glm::vec3(5.0, 10.0f, 5.0f));
         // Drawing the mesh
         for (int i = 0; i < transforms.size(); i++)
         {
