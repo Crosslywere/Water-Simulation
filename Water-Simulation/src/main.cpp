@@ -179,6 +179,7 @@ int main(void)
         glm::mat4 model = glm::mat4(1.0f);
         shader.SetFloat("time", (float)glfwGetTime());
         shader.SetVec3("lightPos", glm::vec3(5.0, 10.0f, 5.0f));
+        shader.SetVec3("surfaceColor", glm::vec3(0.125f, 0.25f, 0.5f));
         // Drawing the mesh
         for (int i = 0; i < transforms.size(); i++)
         {
