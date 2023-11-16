@@ -4,6 +4,7 @@ in vec3 normal;
 in vec3 fragPos;
 uniform vec3 lightPos;
 uniform vec3 surfaceColor;
+uniform vec3 viewPos;
 
 void main()
 {
@@ -13,7 +14,11 @@ void main()
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = surfaceColor * diff;
 
-	vec3 color = ambient + diffuse;
+	vec3 viewDir = normalize(viewPos - fragPos);
+	vec3 reflectDir = normalize(reflect(-lightDir, normal));
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
+
+	vec3 color = ambient + diffuse + vec3(spec);
 	// Outputting an orange color
 	gl_FragColor = vec4(color, 1.0);
 }
