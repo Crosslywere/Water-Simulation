@@ -160,6 +160,12 @@ int main(void)
 		{ "res/textures/skybox/back.jpg", Texture3DSide::Back }
 	);
 	skyboxTexture.Bind();
+	shader.Use();
+	shader.SetInt("cubemap", 0);
+	shader.SetVec3("lightPos", glm::vec3(0.0f, 0.0f, 2.0f));
+	shader.SetVec3("surfaceColor", glm::vec3(0.125f, 0.25f, 0.5f));
+	skyboxShader.Use();
+	skyboxShader.SetInt("cubemap", 0);
 	float past = static_cast<float>(glfwGetTime());
 	// The application loop
 	while (!glfwWindowShouldClose(window))
@@ -178,12 +184,9 @@ int main(void)
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.SetMat4("view", view);
 		glm::mat4 model = glm::mat4(1.0f);
-		shader.SetFloat("time", (float)glfwGetTime());
-		shader.SetVec3("lightPos", glm::vec3(1.2f, 1.0f, 2.0f));
-		shader.SetVec3("surfaceColor", glm::vec3(0.125f, 0.25f, 0.5f));
-		shader.SetVec3("viewPos", camera.GetPosition());
-		shader.SetInt("cubemap", 0);
 		shader.SetMat4("model", model);
+		shader.SetFloat("time", static_cast<float>(glfwGetTime()));
+		shader.SetVec3("viewPos", camera.GetPosition());
 		// Drawing the mesh
 		mesh.Draw(shader);
 		// Setting the depth function so the cube map can be drawn
@@ -192,7 +195,6 @@ int main(void)
 		skyboxShader.SetMat4("projection", projection);
 		view = glm::mat4(glm::mat3(view));
 		skyboxShader.SetMat4("view", view);
-		skyboxShader.SetInt("cubemap", 0);
 		skybox.Draw(skyboxShader);
 		// Resetting the depth function
 		glDepthFunc(GL_LESS);

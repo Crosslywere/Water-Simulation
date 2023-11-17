@@ -12,7 +12,7 @@ enum Texture3DSide
 	Front, Back
 };
 
-struct Texture3DFile
+struct TextureFile
 {
 	std::string filePath = "";
 	Texture3DSide side = Texture3DSide::Right;
@@ -21,12 +21,12 @@ struct Texture3DFile
 class Texture3D
 {
 public:
-	Texture3D(const Texture3DFile& side1, const Texture3DFile& side2, const Texture3DFile& side3,const Texture3DFile& side4,const Texture3DFile& side5,const Texture3DFile& side6)
+	Texture3D(const TextureFile& side1, const TextureFile& side2, const TextureFile& side3,const TextureFile& side4,const TextureFile& side5,const TextureFile& side6)
 		: m_TextureID(0), m_Width(0), m_Height(0)
 	{
 		glGenTextures(1, &m_TextureID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);
-		std::array<Texture3DFile, 6> files = { side1, side2, side3, side4, side5, side6 };
+		std::array<TextureFile, 6> files = { side1, side2, side3, side4, side5, side6 };
 		int bpc;
 		for (const auto& file : files)
 		{
