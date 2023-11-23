@@ -2,6 +2,7 @@
 workspace "Water-Simulation"
 architecture "x64"
 configurations "Release"
+startproject "Water-Simulation"
 
 -- Include projects
 include "Dependencies/GLFW"
