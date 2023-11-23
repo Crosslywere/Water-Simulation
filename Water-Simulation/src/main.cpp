@@ -30,7 +30,7 @@ void keyFn(GLFWwindow* window, int key, int scancode, int action, int mods)
 	switch (key)
 	{
 	case GLFW_KEY_1:
-	case GLFW_KEY_F1:
+  	case GLFW_KEY_F1:
 		if (action == GLFW_PRESS)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		break;
@@ -119,8 +119,8 @@ int main(void)
 	// Initializing GLFW
 	glfwInit();
 	// Configuring OpenGL
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_SAMPLES, 1);
 	// Configuring the window
@@ -145,7 +145,6 @@ int main(void)
 	glfwSwapInterval(1);
 	// Enabling OpenGL settings
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
 	// Loading shader resource
 	Shader shader({ "res/shaders/shader.frag", ShaderType::Fragment }, { "res/shaders/shader.vert", ShaderType::Vertex }, { "res/shaders/shader.geom", ShaderType::Geometry });
 	Shader skyboxShader({ "res/shaders/skybox.vert", ShaderType::Vertex }, { "res/shaders/skybox.frag", ShaderType::Fragment });
@@ -162,7 +161,7 @@ int main(void)
 	skyboxTexture.Bind();
 	shader.Use();
 	shader.SetInt("cubemap", 0);
-	shader.SetVec3("lightPos", glm::vec3(0.0f, 0.0f, 2.0f));
+	shader.SetVec3("lightPos", glm::vec3(0.0f, 100.0f, 50.0f));
 	shader.SetVec3("surfaceColor", glm::vec3(0.125f, 0.25f, 0.5f));
 	skyboxShader.Use();
 	skyboxShader.SetInt("cubemap", 0);
