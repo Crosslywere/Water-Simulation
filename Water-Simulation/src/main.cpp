@@ -111,7 +111,7 @@ void cursorPosFn(GLFWwindow* window, double xpos, double ypos)
 void scrollFn(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Camera& camera = *((WindowProps*)glfwGetWindowUserPointer(window))->ptrCamera;
-	camera.DecFOV(yoffset);
+	camera.DecFOV(static_cast<float>(yoffset));
 }
 
 int main(void)
