@@ -1,3 +1,0 @@
-[submodule "Dependencies/GLFW"]
-	path = Dependencies/GLFW
-	url = https://github.com/Crosslywere/glfw
