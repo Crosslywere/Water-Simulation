@@ -62,6 +62,6 @@ The Camera class is used to control how the scene is viewed. The Camera class ha
 
 ### Usaging the Application
 
-The applications has FPS controls for movement ie WASD. To orient the camera left click and move the mouse. To change the drawing mode use 1/F1, 2/F2, and 3/F3. And finally use the Esc key to exit the application.
+The applications has FPS controls for movement ie WASD. To orient the camera hold left click and move the mouse. To change the drawing mode use 1/F1, 2/F2, and 3/F3. And finally use the Esc key to exit the application.
 
-![Application Image](./Application.jpg)
+![Application Image](./Application.png)
