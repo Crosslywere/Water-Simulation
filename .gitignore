@@ -2,8 +2,14 @@
 bin/
 obj/
 .vs/
+Dependencies/GLFW/*
+!Dependencies/GLFW/src
+!Dependencies/GLFW/include
 
 # Files
 **.sln
 **.vcxproj
 **.vcxproj.*
+Dependencies/GLFW/src/CMakeLists.txt
+!Dependencies/GLFW/*.md
+!Dependencies/GLFW/premake5.lua
