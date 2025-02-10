@@ -4,7 +4,7 @@ language "C"
 cdialect "C11"
 
 targetdir ("bin/%{prj.name}")
-objdir ("bin-int/%{prj.name}")
+objdir ("obj/%{prj.name}")
 
 files
 {
